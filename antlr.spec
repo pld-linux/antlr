@@ -2,7 +2,7 @@
 %define		_snap	20030911
 
 Summary:	ANother Tool for Language Recognition
-Summary(pl):	TODO
+Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
 Version:	2.7.3
 Release:	0.%{_snap}.2
@@ -17,7 +17,7 @@ Patch1:		%{name}-runscript.patch
 URL:		http://www.antlr.org/
 BuildRequires:	jar
 BuildRequires:	jdk
-Requires:	java
+Requires:	jre
 Conflicts:	pccts < 1.33MR33-6
 Obsoletes:	pccts-antlr
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -31,7 +31,14 @@ generates human-readable output, and comes with complete source. ANTLR provides
 excellent support for tree construction, tree walking, and translation. 
 
 %description -l pl
-TODO.
+ANTLR (ANother Tool for Language Recognition; poprzednio znane jako
+PCCTS) to narzêdzie jêzykowe dostarczaj±ce szkielet do tworzenia
+programów rozpoznaj±cych jêzyki, kompilatorów, translatorów z opisów
+gramatycznych obejmuj±cych Javê, C# lub C++. ANTLR jest popularne
+poniewa¿ jest ³atwe do zrozumienia, potê¿ne, elastyczne, generuje
+wyj¶cie czytelne dla cz³owieka i jset dostêpne z pe³nymi ¼ród³ami.
+ANTLR ma ¶wietne wsparcie dla tworzenia drzew, przechodzenia po
+drzewach oraz translacji.
 
 %prep
 %setup -q -n %{name}-%{_snap}
@@ -39,7 +46,6 @@ TODO.
 %patch1 -p1
 
 %build
-
 export CLASSPATH=$RPM_BUILD_DIR/%{name}-%{_snap}
 
 %configure
