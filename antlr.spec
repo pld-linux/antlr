@@ -5,7 +5,7 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl):	TODO
 Name:		antlr
 Version:	2.7.3
-Release:	0.%{_snap}.1
+Release:	0.%{_snap}.2
 License:	Public Domain
 Group:		Development/Tools
 #Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
@@ -18,7 +18,8 @@ URL:		http://www.antlr.org/
 BuildRequires:	jar
 BuildRequires:	jdk
 Requires:	java
-Conflicts:	pccts
+Conflicts:	pccts < 1.33MR33-6
+Obsoletes:	pccts-antlr
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
