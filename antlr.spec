@@ -9,7 +9,8 @@ Release:	0.%{_snap}.1
 License:	Public Domain
 Group:		Development/Tools
 #Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
-Source0:	http://wwwhome.cs.utwente.nl/~klaren/antlr/%{name}-%{_snap}.tar.gz
+#Source0:	http://wwwhome.cs.utwente.nl/~klaren/antlr/%{name}-%{_snap}.tar.gz
+Source0:	%{name}-%{_snap}.tar.gz
 # Source0-md5:	de00ded0f1922587bb24628152fc3f62
 Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-runscript.patch
