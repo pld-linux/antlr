@@ -5,7 +5,7 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
 Version:	2.7.3
-Release:	0.%{_snap}.2
+Release:	0.%{_snap}.3
 License:	Public Domain
 Group:		Development/Tools
 #Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
@@ -15,8 +15,9 @@ Source0:	%{name}-%{_snap}.tar.gz
 Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-runscript.patch
 URL:		http://www.antlr.org/
+BuildRequires:	gcc-java
 BuildRequires:	jar
-BuildRequires:	jdk
+# BuildRequires:	jdk
 Requires:	jre
 Conflicts:	pccts < 1.33MR33-6
 Obsoletes:	pccts-antlr
@@ -48,7 +49,8 @@ drzewach oraz translacji.
 %build
 export CLASSPATH=$RPM_BUILD_DIR/%{name}-%{_snap}
 
-%configure
+%configure \
+    --enable-gcj
 
 %{__make}
 
@@ -66,6 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc RIGHTS
 %attr(755,root,root) %{_bindir}/antlr
 %attr(755,root,root) %{_bindir}/antlr-config
+%attr(755,root,root) %{_bindir}/antlr-java
 %{_includedir}/%{name}
 %{_libdir}/libantlr.a
 %{_datadir}/%{name}-%{version}
