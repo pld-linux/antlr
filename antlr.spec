@@ -1,7 +1,7 @@
 # TODO: Move antlr-java to separate package ?
 #
 # Conditional build:
-%bcond_with	javac	# use javac instead of jdk
+%bcond_with	javac	# use javac instead of gcj
 #
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
