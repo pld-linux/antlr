@@ -1,6 +1,4 @@
-# Note:
-# Requires jdk and jar.
-# For AC builders prolly we need to be more specific about BRs.
+# TODO: Move antlr-java to separate package ?
 
 %define		_snap	20030911
 
@@ -8,7 +6,7 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
 Version:	2.7.3
-Release:	0.%{_snap}.3
+Release:	0.%{_snap}.4
 License:	Public Domain
 Group:		Development/Tools
 #Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
@@ -22,7 +20,7 @@ BuildRequires:	gcc-java
 BuildRequires:	gcc-java-tools
 # BuildRequires:	jar
 # BuildRequires:	jdk
-Requires:	jre
+# Requires:	jre
 Conflicts:	pccts < 1.33MR33-6
 Obsoletes:	pccts-antlr
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -72,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc RIGHTS
 %attr(755,root,root) %{_bindir}/antlr
 %attr(755,root,root) %{_bindir}/antlr-config
-%attr(755,root,root) %{_bindir}/antlr-java
+#%%attr(755,root,root) %{_bindir}/antlr-java
 %{_includedir}/%{name}
 %{_libdir}/libantlr.a
 %{_datadir}/%{name}-%{version}
