@@ -2,12 +2,12 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl):	TODO
 Name:		antlr
 Version:	2.7.2
-Release:	1
+Release:	2
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
 # Source0-md5:	d67ffcaba6b2cedd99601b9052f63957
-Patch0:		%{name}-classpath.patch
+Patch0:		%{name}-scripts.patch
 URL:		http://www.antlr.org/
 BuildRequires:	jar
 Conflicts:	pccts
@@ -29,8 +29,6 @@ TODO.
 %patch0 -p1
 
 %build
-
-export CLASSPATH=$RPM_BUILD_DIR/%{name}-%{version}/antlr.jar
 
 %configure
 
