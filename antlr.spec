@@ -66,7 +66,7 @@ install -d $RPM_BUILD_ROOT%{_javalibdir}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-mv $RPM_BUILD_ROOT/%{_datadir}/%{name}-2.7.3/antlr.jar $RPM_BUILD_ROOT%{_javalibdir}/
+mv $RPM_BUILD_ROOT%{_datadir}/%{name}-2.7.3/antlr.jar $RPM_BUILD_ROOT%{_javalibdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
