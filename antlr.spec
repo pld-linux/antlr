@@ -1,3 +1,6 @@
+# Note:
+# Requires jdk and jar.
+# For AC builders prolly we need to be more specific about BRs.
 
 %define		_snap	20030911
 
@@ -16,7 +19,8 @@ Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-runscript.patch
 URL:		http://www.antlr.org/
 BuildRequires:	gcc-java
-BuildRequires:	jar
+BuildRequires:	gcc-java-tools
+# BuildRequires:	jar
 # BuildRequires:	jdk
 Requires:	jre
 Conflicts:	pccts < 1.33MR33-6
