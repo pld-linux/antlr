@@ -6,7 +6,7 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
 Version:	2.7.3
-Release:	0.%{_snap}.4
+Release:	0.%{_snap}.5
 License:	Public Domain
 Group:		Development/Tools
 #Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
@@ -22,7 +22,6 @@ BuildRequires:	gcc-java-tools
 # BuildRequires:	jdk
 # Requires:	jre
 Conflicts:	pccts < 1.33MR33-6
-Obsoletes:	pccts-antlr
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
