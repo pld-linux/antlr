@@ -1,0 +1,14 @@
+--- antlr-2.7.2/scripts/Config.make.in~	2003-01-20 01:37:31.000000000 +0100
++++ antlr-2.7.2/scripts/Config.make.in	2003-10-09 14:20:18.000000000 +0200
+@@ -24,9 +24,9 @@
+ versioneddir    = $(PACKAGE_NAME)-$(PACKAGE_VERSION)
+ 
+ # Programs we might use and their options...
+-ANTLR    = $(JAVA) -cp $(TOPDIR)/antlrall.jar antlr.Tool
++ANTLR    = $(JAVA) -cp $(CLASSPATH):$(TOPDIR)/antlrall.jar antlr.Tool
+ # antlr is used to build antlr
+-ANTLR_BOOTSTRAP = $(JAVA) -cp @BOOTSTRAP_JAR@ antlr.Tool
++ANTLR_BOOTSTRAP = $(JAVA) -cp $(CLASSPATH):@BOOTSTRAP_JAR@ antlr.Tool
+ 
+ CXX = @CXX@
+    CXXFLAGS = @CXXFLAGS@ $(ARCHFLAGS) $(INCLUDE) $(DEBUG) $(EXTRA_CXXFLAGS)
