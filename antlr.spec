@@ -7,7 +7,7 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
 Version:	2.7.4
-Release:	1
+Release:	2
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
@@ -24,6 +24,8 @@ Requires:	jre
 %endif
 Conflicts:	pccts < 1.33MR33-6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_javalibdir	%{_datadir}/java
 
 %description
 ANTLR, ANother Tool for Language Recognition, (formerly PCCTS) is a language
@@ -59,9 +61,12 @@ cp -f /usr/share/automake/config.sub scripts
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_javalibdir}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+mv $RPM_BUILD_ROOT/%{name}-2.7.3/antlr.jar $RPM_BUILD_ROOT%{_javalibdir}/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -74,4 +79,4 @@ rm -rf $RPM_BUILD_ROOT
 %{!?with_javac:%attr(755,root,root) %{_bindir}/antlr-java}
 %{_includedir}/%{name}
 %{_libdir}/libantlr.a
-%{_datadir}/%{name}-2.7.3
+$RPM_BUILD_ROOT%{_javalibdir}/*.jar
