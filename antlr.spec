@@ -38,7 +38,7 @@ PCCTS) to narzêdzie jêzykowe dostarczaj±ce szkielet do tworzenia
 programów rozpoznaj±cych jêzyki, kompilatorów, translatorów z opisów
 gramatycznych obejmuj±cych Javê, C# lub C++. ANTLR jest popularne
 poniewa¿ jest ³atwe do zrozumienia, potê¿ne, elastyczne, generuje
-wyj¶cie czytelne dla cz³owieka i jset dostêpne z pe³nymi ¼ród³ami.
+wyj¶cie czytelne dla cz³owieka i jest dostêpne z pe³nymi ¼ród³ami.
 ANTLR ma ¶wietne wsparcie dla tworzenia drzew, przechodzenia po
 drzewach oraz translacji.
 
