@@ -10,6 +10,8 @@ Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
 Patch0:		%{name}-scripts.patch
 URL:		http://www.antlr.org/
 BuildRequires:	jar
+BuildRequires:	jdk
+Requires:	java
 Conflicts:	pccts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
