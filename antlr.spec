@@ -1,5 +1,8 @@
 # TODO: Move antlr-java to separate package ?
-
+#
+# Conditional build:
+%bcond_with	javac	# use javac instead of jdk
+#
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
@@ -10,11 +13,15 @@ Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
 # Source0-md5:	33df7cdc8e80447cdd78607c76f02bac
 URL:		http://www.antlr.org/
+BuildRequires:	automake
+%if !%{with javac}
 BuildRequires:	gcc-java
 BuildRequires:	gcc-java-tools
-# BuildRequires:	jar
-# BuildRequires:	jdk
-# Requires:	jre
+%else
+BuildRequires:	jar
+BuildRequires:	jdk
+Requires:	jre
+%endif
 Conflicts:	pccts < 1.33MR33-6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -42,10 +49,11 @@ drzewach oraz translacji.
 %build
 #export CLASSPATH=$RPM_BUILD_DIR/%{name}-%{version}
 
-cp /usr/share/automake/config.sub scripts
+cp -f /usr/share/automake/config.sub scripts
 
 %configure \
-        --enable-gcj
+	%{?with_javac:CLASSPATH=`pwd`} \
+	%{!?with_javac:--enable-gcj}
 
 %{__make}
 
@@ -63,7 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/*
 %attr(755,root,root) %{_bindir}/antlr
 %attr(755,root,root) %{_bindir}/antlr-config
-%attr(755,root,root) %{_bindir}/antlr-java
+%{!?with_javac:%attr(755,root,root) %{_bindir}/antlr-java}
 %{_includedir}/%{name}
 %{_libdir}/libantlr.a
 %{_datadir}/%{name}-2.7.3
