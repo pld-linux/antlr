@@ -79,4 +79,4 @@ rm -rf $RPM_BUILD_ROOT
 %{!?with_javac:%attr(755,root,root) %{_bindir}/antlr-java}
 %{_includedir}/%{name}
 %{_libdir}/libantlr.a
-$RPM_BUILD_ROOT%{_javalibdir}/*.jar
+%{_javalibdir}/*.jar
