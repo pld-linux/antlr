@@ -40,6 +40,8 @@ drzewach oraz translacji.
 %setup -q
 
 %build
+#export CLASSPATH=$RPM_BUILD_DIR/%{name}-%{version}
+
 cp /usr/share/automake/config.sub scripts
 
 %configure \
