@@ -9,7 +9,7 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
 Version:	2.7.5
-Release:	1
+Release:	2
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
@@ -73,7 +73,7 @@ install -d $RPM_BUILD_ROOT%{_javalibdir}
 
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar $RPM_BUILD_ROOT%{_javalibdir}
 
-%{__sed} -i -e "s#%{name}-%{version}#java#g" $RPM_BUILD_ROOT%{_bindir}/antlr
+%{__sed} -i -e "s,ANTLR_JAR=.*,ANTLR_JAR=\"%{_javalibdir}/antlr.jar\",g" $RPM_BUILD_ROOT%{_bindir}/antlr
 
 %clean
 rm -rf $RPM_BUILD_ROOT
