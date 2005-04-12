@@ -1,4 +1,6 @@
-# TODO: Move antlr-java to separate package ?
+# TODO: 
+#  *  Add a csharp bindings subpacakge (feel free to do it)
+#  *  Package the python bindings as subpackage as well
 #
 # Conditional build:
 %bcond_with	javac	# use javac instead of gcj
@@ -6,12 +8,13 @@
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
-Version:	2.7.4
-Release:	2
+Version:	2.7.5
+Release:	1
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	33df7cdc8e80447cdd78607c76f02bac
+# Source0-md5:	1ef201f29283179c8e5ab618529cac78
+Patch0:		%{name}-DESTDIR.patch
 URL:		http://www.antlr.org/
 BuildRequires:	automake
 %if !%{with javac}
@@ -23,6 +26,7 @@ BuildRequires:	jdk
 Requires:	jre
 %endif
 Conflicts:	pccts < 1.33MR33-6
+BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_javalibdir	%{_datadir}/java
@@ -47,6 +51,7 @@ drzewach oraz translacji.
 
 %prep
 %setup -q
+%patch0 -p1 
 
 %build
 #export CLASSPATH=$RPM_BUILD_DIR/%{name}-%{version}
@@ -66,7 +71,9 @@ install -d $RPM_BUILD_ROOT%{_javalibdir}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-mv $RPM_BUILD_ROOT%{_datadir}/%{name}-2.7.3/antlr.jar $RPM_BUILD_ROOT%{_javalibdir}
+mv $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar $RPM_BUILD_ROOT%{_javalibdir}
+
+%{__sed} -i -e "s#%{name}-%{version}#java#g" $RPM_BUILD_ROOT%{_bindir}/antlr
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -79,4 +86,5 @@ rm -rf $RPM_BUILD_ROOT
 %{!?with_javac:%attr(755,root,root) %{_bindir}/antlr-java}
 %{_includedir}/%{name}
 %{_libdir}/libantlr.a
+# Dont separate it, antlr binary wont work without it
 %{_javalibdir}/*.jar
