@@ -59,8 +59,8 @@ drzewach oraz translacji.
 cp -f /usr/share/automake/config.sub scripts
 
 %configure \
-	%{?with_javac:CLASSPATH=`pwd`} \
-	%{!?with_javac:--enable-gcj}
+	%{?with_javac:CLASSPATH=`pwd` --with-javac=javac} \
+	%{!?with_javac:--with-javac=gcj}
 
 %{__make}
 
@@ -83,7 +83,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/*
 %attr(755,root,root) %{_bindir}/antlr
 %attr(755,root,root) %{_bindir}/antlr-config
-%{!?with_javac:%attr(755,root,root) %{_bindir}/antlr-java}
 %{_includedir}/%{name}
 %{_libdir}/libantlr.a
 # Dont separate it, antlr binary wont work without it
