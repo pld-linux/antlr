@@ -9,12 +9,13 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
 Version:	2.7.5
-Release:	2
+Release:	3
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
 # Source0-md5:	1ef201f29283179c8e5ab618529cac78
 Patch0:		%{name}-DESTDIR.patch
+Patch1:		%{name}-remove-ugly-gcj-hack.patch
 URL:		http://www.antlr.org/
 BuildRequires:	automake
 %if %{with gcj}
@@ -49,7 +50,8 @@ drzewach oraz translacji.
 
 %prep
 %setup -q
-%patch0 -p1 
+%patch0 -p1
+%patch1 -p1
 
 %build
 cp -f /usr/share/automake/config.sub scripts
