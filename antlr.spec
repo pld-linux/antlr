@@ -3,7 +3,7 @@
 #  *  Package the python bindings as subpackage as well
 #
 # Conditional build:
-%bcond_with	javac	# use javac instead of gcj
+%bcond_without	gcj	# use GCJ instead of javac
 #
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
@@ -17,7 +17,7 @@ Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
 Patch0:		%{name}-DESTDIR.patch
 URL:		http://www.antlr.org/
 BuildRequires:	automake
-%if !%{with javac}
+%if %{with gcj}
 BuildRequires:	gcc-java
 BuildRequires:	gcc-java-tools
 %else
@@ -28,8 +28,6 @@ Requires:	jre
 Conflicts:	pccts < 1.33MR33-6
 BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_javalibdir	%{_datadir}/java
 
 %description
 ANTLR, ANother Tool for Language Recognition, (formerly PCCTS) is a language
@@ -54,26 +52,25 @@ drzewach oraz translacji.
 %patch0 -p1 
 
 %build
-#export CLASSPATH=$RPM_BUILD_DIR/%{name}-%{version}
-
 cp -f /usr/share/automake/config.sub scripts
 
 %configure \
-	%{?with_javac:CLASSPATH=`pwd` --with-javac=javac} \
-	%{!?with_javac:--with-javac=gcj}
+	%{!?with_gcj:CLASSPATH=`pwd` --with-javac=javac} \
+	%{?with_gcj:--with-javac=gcj --with-jar=fastjar}
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_javalibdir}
+install -d $RPM_BUILD_ROOT%{_javadir}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-mv $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar $RPM_BUILD_ROOT%{_javalibdir}
+install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar \
+	$RPM_BUILD_ROOT%{_javadir}
 
-%{__sed} -i -e "s,ANTLR_JAR=.*,ANTLR_JAR=\"%{_javalibdir}/antlr.jar\",g" $RPM_BUILD_ROOT%{_bindir}/antlr
+%{__sed} -i -e "s,ANTLR_JAR=.*,ANTLR_JAR=\"%{_javadir}/antlr.jar\",g" $RPM_BUILD_ROOT%{_bindir}/antlr
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -86,4 +83,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/%{name}
 %{_libdir}/libantlr.a
 # Dont separate it, antlr binary wont work without it
-%{_javalibdir}/*.jar
+%{_javadir}/*.jar
