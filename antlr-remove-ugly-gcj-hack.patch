@@ -1,0 +1,16 @@
+--- antlr-2.7.5/antlr/Makefile.in.orig	2005-04-18 05:00:24.000000000 +0200
++++ antlr-2.7.5/antlr/Makefile.in	2005-04-18 05:11:29.000000000 +0200
+@@ -270,12 +270,7 @@
+   $(eol)
+ 
+ 
+-## damned ugly hack ..
+-ifeq (gcj,@javac@)
+-	antlr_java_FILES = $(antlr_java1_FILES)
+-else
+-	antlr_java_FILES = $(antlr_java1_FILES) $(antlr_swing_FILES)
+-endif
++antlr_java_FILES = $(antlr_java1_FILES) $(antlr_swing_FILES)
+ 
+ ## rule how to compile java files 
+ @ANTLR_JAR@ :: $(antlr_java_FILES)
