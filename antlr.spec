@@ -19,8 +19,8 @@ Patch1:		%{name}-remove-ugly-gcj-hack.patch
 URL:		http://www.antlr.org/
 BuildRequires:	automake
 %if %{with gcj}
-BuildRequires:	gcc-java
-BuildRequires:	gcc-java-tools
+BuildRequires:	gcc-java >= 5:4.0.0
+BuildRequires:	gcc-java-tools >= 5:4.0.0
 %else
 BuildRequires:	jar
 BuildRequires:	jdk
