@@ -1,9 +1,9 @@
 # TODO: 
-#  *  Add a csharp bindings subpacakge (feel free to do it)
+#  *  Add a csharp bindings subpackage (feel free to do it)
 #  *  Package the python bindings as subpackage as well
 #
 # Conditional build:
-%bcond_without	gcj	# use GCJ instead of javac
+%bcond_without	gcj	# use javac instead of GCJ
 #
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
@@ -21,6 +21,7 @@ BuildRequires:	automake
 %if %{with gcj}
 BuildRequires:	gcc-java >= 5:4.0.0
 BuildRequires:	gcc-java-tools >= 5:4.0.0
+Requires:	/usr/bin/gij
 %else
 BuildRequires:	jar
 BuildRequires:	jdk
