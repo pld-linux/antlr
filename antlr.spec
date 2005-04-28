@@ -20,6 +20,8 @@ BuildRequires:	automake
 %if !%{with javac}
 BuildRequires:	gcc-java
 BuildRequires:	gcc-java-tools
+# gij is in gcc-java in Ac
+Requires:	gcc-java
 %else
 BuildRequires:	jar
 BuildRequires:	jdk
@@ -85,5 +87,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/antlr-config
 %{_includedir}/%{name}
 %{_libdir}/libantlr.a
-# Dont separate it, antlr binary wont work without it
+# Don't separate it, antlr binary won't work without it
 %{_javalibdir}/*.jar
