@@ -1,6 +1,7 @@
-# TODO: 
+# TODO:
 #  *  Add a csharp bindings subpackage (feel free to do it)
-#  *  Package the python bindings as subpackage as well
+#  *  add python bcond
+#  *  add an axamples subpackage (and python-examples as well)
 #
 # Conditional build:
 %bcond_without	gcj	# use javac instead of GCJ
@@ -32,12 +33,13 @@ BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-ANTLR, ANother Tool for Language Recognition, (formerly PCCTS) is a language
-tool that provides a framework for constructing recognizers, compilers, and
-translators from grammatical descriptions containing Java, C#, or C++ actions.
-ANTLR is popular because it is easy to understand, powerful, flexible,
-generates human-readable output, and comes with complete source. ANTLR provides
-excellent support for tree construction, tree walking, and translation. 
+ANTLR, ANother Tool for Language Recognition, (formerly PCCTS) is a
+language tool that provides a framework for constructing recognizers,
+compilers, and translators from grammatical descriptions containing
+Java, C#, or C++ actions. ANTLR is popular because it is easy to
+understand, powerful, flexible, generates human-readable output, and
+comes with complete source. ANTLR provides excellent support for tree
+construction, tree walking, and translation.
 
 %description -l pl
 ANTLR (ANother Tool for Language Recognition; poprzednio znane jako
@@ -48,6 +50,19 @@ poniewa¿ jest ³atwe do zrozumienia, potê¿ne, elastyczne, generuje
 wyj¶cie czytelne dla cz³owieka i jest dostêpne z pe³nymi ¼ród³ami.
 ANTLR ma ¶wietne wsparcie dla tworzenia drzew, przechodzenia po
 drzewach oraz translacji.
+
+%package -n python-%{name}
+Summary:	Python support for ANTLR
+Summary(pl):	Modu³y jêzyka Python dla biblioteki ANTLR
+Group:		Libraries/Python
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+%pyrequires_eq	python-libs
+
+%description -n python-%{name}
+Python support for ANTLR.
+
+%description -n python-%{name} -l pl
+Modu³y jêzyka Python dla biblioteki ANTLR.
 
 %prep
 %setup -q
@@ -65,15 +80,22 @@ cp -f /usr/share/automake/config.sub scripts
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_javadir}
+install -d $RPM_BUILD_ROOT{%{_javadir},%{py_sitescriptdir}/%{name}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar \
 	$RPM_BUILD_ROOT%{_javadir}
+install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/*.py \
+	$RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
+
+%py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
+%py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
+rm $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/*.py
 
 %{__sed} -i -e "s,ANTLR_JAR=.*,ANTLR_JAR=\"%{_javadir}/antlr.jar\",g" $RPM_BUILD_ROOT%{_bindir}/antlr
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -87,3 +109,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libantlr.a
 # Dont separate it, antlr binary wont work without it
 %{_javadir}/*.jar
+
+%files -n python-%{name}
+%defattr(644,root,root,755)
+%{py_sitescriptdir}/%{name}
