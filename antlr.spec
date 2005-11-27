@@ -1,16 +1,16 @@
 # TODO:
-#  *  Add a csharp bindings subpackage (feel free to do it)
 #  *  add python bcond
 #  *  add an axamples subpackage (and python-examples as well)
 #
 # Conditional build:
 %bcond_without	gcj	# use javac instead of GCJ
+%bcond_without	dotnet	# don't build .NET modules
 #
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
 Version:	2.7.5
-Release:	4
+Release:	4.1
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
@@ -28,6 +28,7 @@ BuildRequires:	jar
 BuildRequires:	jdk
 Requires:	jre
 %endif
+%{?with_dotnet:BuildRequires:	mono-csharp}
 Conflicts:	pccts < 1.33MR33-6
 BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -51,17 +52,28 @@ wyj¶cie czytelne dla cz³owieka i jest dostêpne z pe³nymi ¼ród³ami.
 ANTLR ma ¶wietne wsparcie dla tworzenia drzew, przechodzenia po
 drzewach oraz translacji.
 
-%package -n python-%{name}
+%package -n dotnet-antlr
+Summary:	.NET support for ANTLR
+Summary(pl):	Modu³y jêzyka .NET dla biblioteki ANTLR
+Group:		Libraries
+
+%description -n dotnet-antlr
+.NET support for ANTLR.
+
+%description -n dotnet-antlr -l pl
+Modu³y jêzyka .NET dla biblioteki ANTLR.
+
+%package -n python-antlr
 Summary:	Python support for ANTLR
 Summary(pl):	Modu³y jêzyka Python dla biblioteki ANTLR
 Group:		Libraries/Python
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 %pyrequires_eq	python-libs
 
-%description -n python-%{name}
+%description -n python-antlr
 Python support for ANTLR.
 
-%description -n python-%{name} -l pl
+%description -n python-antlr -l pl
 Modu³y jêzyka Python dla biblioteki ANTLR.
 
 %prep
@@ -73,6 +85,8 @@ Modu³y jêzyka Python dla biblioteki ANTLR.
 cp -f /usr/share/automake/config.sub scripts
 
 %configure \
+	--enable-cxx \
+	%{?with_dotnet:--enable-csharp} \
 	%{!?with_gcj:CLASSPATH=`pwd` --with-javac=javac} \
 	%{?with_gcj:--with-javac=gcj --with-jar=fastjar}
 
@@ -80,7 +94,7 @@ cp -f /usr/share/automake/config.sub scripts
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_javadir},%{py_sitescriptdir}/%{name}}
+install -d $RPM_BUILD_ROOT{%{_javadir},%{py_sitescriptdir}/%{name},%{_prefix}/lib/mono/%{name}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -89,13 +103,13 @@ install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar \
 	$RPM_BUILD_ROOT%{_javadir}
 install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/*.py \
 	$RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
+install lib/*.dll $RPM_BUILD_ROOT%{_prefix}/lib/mono/%{name}
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
 %py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
 rm $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/*.py
 
 %{__sed} -i -e "s,ANTLR_JAR=.*,ANTLR_JAR=\"%{_javadir}/antlr.jar\",g" $RPM_BUILD_ROOT%{_bindir}/antlr
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -110,6 +124,12 @@ rm -rf $RPM_BUILD_ROOT
 # Dont separate it, antlr binary wont work without it
 %{_javadir}/*.jar
 
-%files -n python-%{name}
+%if %{with dotnet}
+%files -n dotnet-antlr
+%defattr(644,root,root,755)
+%{_prefix}/lib/mono/%{name}/*.dll
+%endif
+
+%files -n python-antlr
 %defattr(644,root,root,755)
 %{py_sitescriptdir}/%{name}
