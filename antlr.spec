@@ -2,6 +2,9 @@
 #  *  add python bcond
 #  *  add an axamples subpackage (and python-examples as well)
 #
+#
+%include	/usr/lib/rpm/macros.mono
+#
 # Conditional build:
 %bcond_without	gcj	# use javac instead of GCJ
 %bcond_without	dotnet	# don't build .NET modules
