@@ -2,12 +2,11 @@
 #  *  add python bcond
 #  *  add an axamples subpackage (and python-examples as well)
 #
-#
-%include	/usr/lib/rpm/macros.mono
-#
 # Conditional build:
 %bcond_without	gcj	# use javac instead of GCJ
 %bcond_without	dotnet	# don't build .NET modules
+#
+%{?with_dotnet:%include	/usr/lib/rpm/macros.mono}
 #
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
@@ -106,7 +105,8 @@ install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar \
 	$RPM_BUILD_ROOT%{_javadir}
 install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/*.py \
 	$RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
-install lib/*.dll $RPM_BUILD_ROOT%{_prefix}/lib/mono/%{name}
+
+%{?with_dotnet:install lib/*.dll $RPM_BUILD_ROOT%{_prefix}/lib/mono/%{name}}
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
 %py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
