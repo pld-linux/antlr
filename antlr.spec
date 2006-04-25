@@ -109,7 +109,7 @@ cp -f /usr/share/automake/config.sub scripts
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_javadir},%{py_sitescriptdir}/%{name},%{_prefix}/lib/mono/%{name},%{_examplesdir}/%{name}}
+install -d $RPM_BUILD_ROOT{%{_javadir},%{py_sitescriptdir}/%{name},%{_prefix}/lib/mono/%{name},%{_examplesdir}/%{name}-%{version}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -120,7 +120,7 @@ install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/*.py \
 	$RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
 cp -Rf examples/{cpp,csharp,java,python} \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
-find $RPM_BUILD_ROOT%{_examplesdir}/%{name} -name Makefile -exec rm -f {} \;
+find $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version} -name Makefile -exec rm -f {} \;
 
 %{?with_dotnet:install lib/*.dll $RPM_BUILD_ROOT%{_prefix}/lib/mono/%{name}}
 
