@@ -78,6 +78,18 @@ Python support for ANTLR.
 %description -n python-antlr -l pl
 Modu³y jêzyka Python dla biblioteki ANTLR.
 
+%package examples
+Summary:	Examples of ANTLR usage
+Summary(pl):	Przyk³adowe programy u¿ywaj±ce ANTLR
+Group:		Development
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description examples
+Examples of ANTLR usage.
+
+%description examples -l pl
+Przyk³adowe programy u¿ywaj±ce ANTLR.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -96,7 +108,7 @@ cp -f /usr/share/automake/config.sub scripts
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_javadir},%{py_sitescriptdir}/%{name},%{_prefix}/lib/mono/%{name}}
+install -d $RPM_BUILD_ROOT{%{_javadir},%{py_sitescriptdir}/%{name},%{_prefix}/lib/mono/%{name},%{_examplesdir}/%{name}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -105,6 +117,9 @@ install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar \
 	$RPM_BUILD_ROOT%{_javadir}
 install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/*.py \
 	$RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
+cp -Rf examples/{cpp,csharp,java,python} \
+	$RPM_BUILD_ROOT%{_examplesdir}/%{name}
+find $RPM_BUILD_ROOT%{_examplesdir}/%{name} -name Makefile -exec rm -f {} \;
 
 %{?with_dotnet:install lib/*.dll $RPM_BUILD_ROOT%{_prefix}/lib/mono/%{name}}
 
@@ -136,3 +151,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python-antlr
 %defattr(644,root,root,755)
 %{py_sitescriptdir}/%{name}
+
+%files examples
+%defattr(644,root,root,755)
+%{_examplesdir}/%{name}
