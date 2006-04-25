@@ -118,7 +118,7 @@ install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar \
 install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/*.py \
 	$RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
 cp -Rf examples/{cpp,csharp,java,python} \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}
+	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 find $RPM_BUILD_ROOT%{_examplesdir}/%{name} -name Makefile -exec rm -f {} \;
 
 %{?with_dotnet:install lib/*.dll $RPM_BUILD_ROOT%{_prefix}/lib/mono/%{name}}
@@ -154,4 +154,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %files examples
 %defattr(644,root,root,755)
-%{_examplesdir}/%{name}
+%{_examplesdir}/%{name}-%{version}
