@@ -1,34 +1,6 @@
---- antlr-2.7.5/Makefile.in.orig	2005-04-12 22:42:05.358737104 +0200
-+++ antlr-2.7.5/Makefile.in	2005-04-12 22:46:10.220512456 +0200
-@@ -123,16 +123,16 @@
- extradir = $(datadir)/$(versioneddir)
- 
- install ::
--	$(MKDIR) -p "$(bindir)"
--	$(MKDIR) -p "$(extradir)"
--	$(MKDIR) -p "$(docdir)"
--	$(INSTALL) -m 755 scripts/run-antlr                          "$(bindir)/antlr"
--	$(INSTALL) -m 755 scripts/antlr-config                       "$(bindir)/antlr-config"
--	$(INSTALL) -m 444 @abs_top_srcdir@/extras/antlr-mode.el      "$(extradir)"
--	$(INSTALL) -m 444 @abs_top_srcdir@/extras/antlr-jedit.xml    "$(extradir)"
--	$(INSTALL) -m 444 @abs_top_srcdir@/LICENSE.txt               "$(docdir)"
--	$(INSTALL) -m 444 @abs_top_srcdir@/README.txt                "$(docdir)"
--	$(INSTALL) -m 444 @abs_top_srcdir@/INSTALL.txt               "$(docdir)"
-+	$(MKDIR) -p "$(DESTDIR)$(bindir)"
-+	$(MKDIR) -p "$(DESTDIR)$(extradir)"
-+	$(MKDIR) -p "$(DESTDIR)$(docdir)"
-+	$(INSTALL) -m 755 scripts/run-antlr                          "$(DESTDIR)$(bindir)/antlr"
-+	$(INSTALL) -m 755 scripts/antlr-config                       "$(DESTDIR)$(bindir)/antlr-config"
-+	$(INSTALL) -m 444 @abs_top_srcdir@/extras/antlr-mode.el      "$(DESTDIR)$(extradir)"
-+	$(INSTALL) -m 444 @abs_top_srcdir@/extras/antlr-jedit.xml    "$(DESTDIR)$(extradir)"
-+	$(INSTALL) -m 444 @abs_top_srcdir@/LICENSE.txt               "$(DESTDIR)$(docdir)"
-+	$(INSTALL) -m 444 @abs_top_srcdir@/README.txt                "$(DESTDIR)$(docdir)"
-+	$(INSTALL) -m 444 @abs_top_srcdir@/INSTALL.txt               "$(DESTDIR)$(docdir)"
- 
- install ::
- 	echo "installation done"
---- antlr-2.7.5/antlr/Makefile.in.orig	2005-04-12 22:47:01.726682328 +0200
-+++ antlr-2.7.5/antlr/Makefile.in	2005-04-12 22:49:51.257909664 +0200
+diff -uNr antlr-2.7.6.orig/antlr/Makefile.in antlr-2.7.6/antlr/Makefile.in
+--- antlr-2.7.6.orig/antlr/Makefile.in	2005-12-07 19:00:32.000000000 +0100
++++ antlr-2.7.6/antlr/Makefile.in	2006-05-07 14:47:26.796100250 +0200
 @@ -314,11 +314,11 @@
  
  ## install antlr.jar in libdirectory if exists
@@ -44,9 +16,103 @@
 +	 $(INSTALL) -m 444 @ANTLR_JAR@ "$(DESTDIR)$(libdir)" ; \
  	}
  
- ## get configured dependencies
---- antlr-2.7.5/lib/python/Makefile.in.orig	2005-04-12 22:55:13.618903344 +0200
-+++ antlr-2.7.5/lib/python/Makefile.in	2005-04-12 22:57:02.258387632 +0200
+ distclean :: clean
+diff -uNr antlr-2.7.6.orig/doc/Makefile.in antlr-2.7.6/doc/Makefile.in
+--- antlr-2.7.6.orig/doc/Makefile.in	2005-12-07 19:00:32.000000000 +0100
++++ antlr-2.7.6/doc/Makefile.in	2006-05-07 15:05:16.914100500 +0200
+@@ -43,12 +43,12 @@
+ 	$(eol)
+ 
+ install ::
+-	@$(MKDIR) -p "$(antlr_doc_DIR)"
++	@$(MKDIR) -p "$(DESTDIR)$(antlr_doc_DIR)"
+ 	@echo "install doc files .. "
+ 	@for f in $(antlr_doc_FILES) ; do \
+ 		echo "install $${f}" ; \
+ 		if test -f "$${f}" ; then \
+-			$(INSTALL) -m 444 "$${f}" "$(antlr_doc_DIR)" ; \
++			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(antlr_doc_DIR)" ; \
+ 		fi ;\
+ 	done
+ 
+diff -uNr antlr-2.7.6.orig/lib/cpp/antlr/Makefile.in antlr-2.7.6/lib/cpp/antlr/Makefile.in
+--- antlr-2.7.6.orig/lib/cpp/antlr/Makefile.in	2005-12-07 19:00:35.000000000 +0100
++++ antlr-2.7.6/lib/cpp/antlr/Makefile.in	2006-05-07 14:49:42.028551750 +0200
+@@ -75,11 +75,11 @@
+ 
+ install:
+ 	@echo "install hpp files .. "
+-	@$(MKDIR) -p "$(includedir)/antlr"
++	@$(MKDIR) -p "$(DESTDIR)$(includedir)/antlr"
+ 	@for f in $(antlr_hpp_FILES) ; do \
+ 		echo "install $${f}" ; \
+ 		if test -f "$${f}" ; then \
+-			$(INSTALL) -m 444 "$${f}" "$(includedir)/antlr" ; \
++			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(includedir)/antlr" ; \
+ 		fi ;\
+ 	done
+ 
+diff -uNr antlr-2.7.6.orig/lib/cpp/src/Makefile.in antlr-2.7.6/lib/cpp/src/Makefile.in
+--- antlr-2.7.6.orig/lib/cpp/src/Makefile.in	2005-12-07 19:00:35.000000000 +0100
++++ antlr-2.7.6/lib/cpp/src/Makefile.in	2006-05-07 14:49:04.850228250 +0200
+@@ -114,12 +114,12 @@
+   $(eol)
+ 
+ this-install: @ANTLR_LIB@ 
+-	@$(MKDIR) -p "$(libdir)"
++	@$(MKDIR) -p "$(DESTDIR)$(libdir)"
+ 	@echo "install C++ core files .. "
+ 	@for f in $(antlr_lib_FILES) ; do \
+ 		echo "install $${f}" ; \
+ 		if test -f "$${f}" ; then \
+-			$(INSTALL) -m 444 "$${f}" "$(libdir)" ; \
++			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(libdir)" ; \
+ 		fi ;\
+ 	done
+ 
+diff -uNr antlr-2.7.6.orig/lib/csharp/antlr.astframe/Makefile.in antlr-2.7.6/lib/csharp/antlr.astframe/Makefile.in
+--- antlr-2.7.6.orig/lib/csharp/antlr.astframe/Makefile.in	2005-12-15 01:50:02.000000000 +0100
++++ antlr-2.7.6/lib/csharp/antlr.astframe/Makefile.in	2006-05-07 15:04:53.140735500 +0200
+@@ -47,13 +47,13 @@
+ 
+ ## install our target ..
+ install :: @ASTFRAME_NET@ 
+-	@$(MKDIR) -p "$(libdir)"
++	@$(MKDIR) -p "$(DESTDIR)$(libdir)"
+ 	@echo "install C# core files .. "
+ 	@for f in @ASTFRAME_NET@  ; do \
+ 		echo "install $${f}" ; \
+ 		if test -f "$${f}" ; then \
+-			$(INSTALL) -m 444 "$${f}" "$(libdir)" ; \
+-			$(INSTALL) -m 444 "$${f}" "$(datadir)/$(versioneddir)" ; \
++			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(libdir)" ; \
++			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(datadir)/$(versioneddir)" ; \
+ 		fi ;\
+ 	done
+ 
+diff -uNr antlr-2.7.6.orig/lib/csharp/antlr.runtime/Makefile.in antlr-2.7.6/lib/csharp/antlr.runtime/Makefile.in
+--- antlr-2.7.6.orig/lib/csharp/antlr.runtime/Makefile.in	2005-12-15 01:50:02.000000000 +0100
++++ antlr-2.7.6/lib/csharp/antlr.runtime/Makefile.in	2006-05-07 15:04:06.270385750 +0200
+@@ -135,13 +135,13 @@
+ 	$(RM) Makefile
+ 
+ install :: @ANTLR_NET@ 
+-	@$(MKDIR) -p "$(libdir)"
++	@$(MKDIR) -p "$(DESTDIR)$(libdir)"
+ 	@echo "install C# core files .. "
+ 	@for f in @ANTLR_NET@  ; do \
+ 		echo "install $${f}" ; \
+ 		if test -f "$${f}" ; then \
+-			$(INSTALL) -m 444 "$${f}" "$(libdir)" ; \
+-			$(INSTALL) -m 444 "$${f}" "$(datadir)/$(versioneddir)" ; \
++			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(libdir)" ; \
++			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(datadir)/$(versioneddir)" ; \
+ 		fi ;\
+ 	done
+ 
+diff -uNr antlr-2.7.6.orig/lib/python/Makefile.in antlr-2.7.6/lib/python/Makefile.in
+--- antlr-2.7.6.orig/lib/python/Makefile.in	2005-12-07 19:00:36.000000000 +0100
++++ antlr-2.7.6/lib/python/Makefile.in	2006-05-07 14:48:28.583961750 +0200
 @@ -41,26 +41,26 @@
  extradir = $(datadir)/$(versioneddir)
  
@@ -80,91 +146,33 @@
  	fi
  
  
---- antlr-2.7.5/lib/cpp/src/Makefile.in.orig	2005-04-12 23:00:20.742213504 +0200
-+++ antlr-2.7.5/lib/cpp/src/Makefile.in	2005-04-12 23:01:15.723855024 +0200
-@@ -113,12 +113,12 @@
-   $(eol)
- 
- this-install: @ANTLR_LIB@ 
--	@$(MKDIR) -p "$(libdir)"
-+	@$(MKDIR) -p "$(DESTDIR)$(libdir)"
- 	@echo "install C++ core files .. "
- 	@for f in $(antlr_lib_FILES) ; do \
- 		echo "install $${f}" ; \
- 		if test -f "$${f}" ; then \
--			$(INSTALL) -m 444 "$${f}" "$(libdir)" ; \
-+			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(libdir)" ; \
- 		fi ;\
- 	done
- 
---- antlr-2.7.5/lib/cpp/antlr/Makefile.in.orig	2005-04-12 23:01:41.451943760 +0200
-+++ antlr-2.7.5/lib/cpp/antlr/Makefile.in	2005-04-12 23:04:41.940505328 +0200
-@@ -74,11 +74,11 @@
- 
- install:
- 	@echo "install hpp files .. "
--	@$(MKDIR) -p "$(includedir)/antlr"
-+	@$(MKDIR) -p "$(DESTDIR)$(includedir)/antlr"
- 	@for f in $(antlr_hpp_FILES) ; do \
- 		echo "install $${f}" ; \
- 		if test -f "$${f}" ; then \
--			$(INSTALL) -m 444 "$${f}" "$(includedir)/antlr" ; \
-+			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(includedir)/antlr" ; \
- 		fi ;\
- 	done
- 
---- antlr-2.7.5/lib/csharp/src/Makefile.in.orig	2005-04-12 23:06:54.686324896 +0200
-+++ antlr-2.7.5/lib/csharp/src/Makefile.in	2005-04-12 23:07:25.075705008 +0200
-@@ -134,13 +134,13 @@
- distclean :: clean
- 
- install :: @ANTLR_NET@ 
--	@$(MKDIR) -p "$(libdir)"
-+	@$(MKDIR) -p "$(DESTDIR)$(libdir)"
- 	@echo "install C# core files .. "
- 	@for f in @ANTLR_NET@  ; do \
- 		echo "install $${f}" ; \
- 		if test -f "$${f}" ; then \
--			$(INSTALL) -m 444 "$${f}" "$(libdir)" ; \
--			$(INSTALL) -m 444 "$${f}" "$(datadir)/$(versioneddir)" ; \
-+			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(libdir)" ; \
-+			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(datadir)/$(versioneddir)" ; \
- 		fi ;\
- 	done
- 
---- antlr-2.7.5/lib/csharp/ASTFrame//Makefile.in.orig	2005-04-12 23:16:45.564497760 +0200
-+++ antlr-2.7.5/lib/csharp/ASTFrame//Makefile.in	2005-04-12 23:17:04.101679680 +0200
-@@ -46,13 +46,13 @@
- 
- ## install our target ..
- install :: @ASTFRAME_NET@ 
--	@$(MKDIR) -p "$(libdir)"
-+	@$(MKDIR) -p "$(DESTDIR)$(libdir)"
- 	@echo "install C# core files .. "
- 	@for f in @ASTFRAME_NET@  ; do \
- 		echo "install $${f}" ; \
- 		if test -f "$${f}" ; then \
--			$(INSTALL) -m 444 "$${f}" "$(libdir)" ; \
--			$(INSTALL) -m 444 "$${f}" "$(datadir)/$(versioneddir)" ; \
-+			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(libdir)" ; \
-+			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(datadir)/$(versioneddir)" ; \
- 		fi ;\
- 	done
- 
---- antlr-2.7.5/doc/Makefile.in.orig	2005-04-12 23:17:34.189105696 +0200
-+++ antlr-2.7.5/doc/Makefile.in	2005-04-12 23:17:48.120987728 +0200
-@@ -43,12 +43,12 @@
- 	$(eol)
+diff -uNr antlr-2.7.6.orig/Makefile.in antlr-2.7.6/Makefile.in
+--- antlr-2.7.6.orig/Makefile.in	2005-12-07 19:00:31.000000000 +0100
++++ antlr-2.7.6/Makefile.in	2006-05-07 14:46:55.750160000 +0200
+@@ -124,16 +124,16 @@
+ extradir = $(datadir)/$(versioneddir)
  
  install ::
--	@$(MKDIR) -p "$(antlr_doc_DIR)"
-+	@$(MKDIR) -p "$(DESTDIR)$(antlr_doc_DIR)"
- 	@echo "install doc files .. "
- 	@for f in $(antlr_doc_FILES) ; do \
- 		echo "install $${f}" ; \
- 		if test -f "$${f}" ; then \
--			$(INSTALL) -m 444 "$${f}" "$(antlr_doc_DIR)" ; \
-+			$(INSTALL) -m 444 "$${f}" "$(DESTDIR)$(antlr_doc_DIR)" ; \
- 		fi ;\
- 	done
+-	$(MKDIR) -p "$(bindir)"
+-	$(MKDIR) -p "$(extradir)"
+-	$(MKDIR) -p "$(docdir)"
+-	$(INSTALL) -m 755 scripts/run-antlr                          "$(bindir)/antlr"
+-	$(INSTALL) -m 755 scripts/antlr-config                       "$(bindir)/antlr-config"
+-	$(INSTALL) -m 444 @abs_top_srcdir@/extras/antlr-mode.el      "$(extradir)"
+-	$(INSTALL) -m 444 @abs_top_srcdir@/extras/antlr-jedit.xml    "$(extradir)"
+-	$(INSTALL) -m 444 @abs_top_srcdir@/LICENSE.txt               "$(docdir)"
+-	$(INSTALL) -m 444 @abs_top_srcdir@/README.txt                "$(docdir)"
+-	$(INSTALL) -m 444 @abs_top_srcdir@/INSTALL.txt               "$(docdir)"
++	$(MKDIR) -p "$(DESTDIR)$(bindir)"
++	$(MKDIR) -p "$(DESTDIR)$(extradir)"
++	$(MKDIR) -p "$(DESTDIR)$(docdir)"
++	$(INSTALL) -m 755 scripts/run-antlr                          "$(DESTDIR)$(bindir)/antlr"
++	$(INSTALL) -m 755 scripts/antlr-config                       "$(DESTDIR)$(bindir)/antlr-config"
++	$(INSTALL) -m 444 @abs_top_srcdir@/extras/antlr-mode.el      "$(DESTDIR)$(extradir)"
++	$(INSTALL) -m 444 @abs_top_srcdir@/extras/antlr-jedit.xml    "$(DESTDIR)$(extradir)"
++	$(INSTALL) -m 444 @abs_top_srcdir@/LICENSE.txt               "$(DESTDIR)$(docdir)"
++	$(INSTALL) -m 444 @abs_top_srcdir@/README.txt                "$(DESTDIR)$(docdir)"
++	$(INSTALL) -m 444 @abs_top_srcdir@/INSTALL.txt               "$(DESTDIR)$(docdir)"
  
+ install ::
+ 	echo "installation done"
