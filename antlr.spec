@@ -1,6 +1,6 @@
 # TODO:
 #  *  add python bcond
-#  *  add an axamples subpackage (and python-examples as well)
+#  *  fix csharp
 #
 # Conditional build:
 %bcond_without	gcj	# use javac instead of GCJ
@@ -11,14 +11,13 @@
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
-Version:	2.7.5
-Release:	4.1
+Version:	2.7.6
+Release:	0.9
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	1ef201f29283179c8e5ab618529cac78
+# Source0-md5:	17d8bf2e814f0a26631aadbbda8d7324
 Patch0:		%{name}-DESTDIR.patch
-Patch1:		%{name}-remove-ugly-gcj-hack.patch
 URL:		http://www.antlr.org/
 BuildRequires:	automake
 %if %{with gcj}
@@ -93,7 +92,6 @@ Przyk³adowe programy u¿ywaj±ce ANTLR.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 cp -f /usr/share/automake/config.sub scripts
