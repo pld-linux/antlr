@@ -20,6 +20,7 @@ Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
 Patch0:		%{name}-DESTDIR.patch
 URL:		http://www.antlr.org/
 BuildRequires:	automake
+BuildRequires:	libstdc++-devel
 %if %{with gcj}
 BuildRequires:	gcc-java >= 5:4.0.0
 BuildRequires:	gcc-java-tools >= 5:4.0.0
