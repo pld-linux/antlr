@@ -101,8 +101,8 @@ cp -f /usr/share/automake/config.sub scripts
 	--enable-cxx \
 	%{?with_dotnet:--enable-csharp} \
 	%{!?with_dotnet:--disable-csharp} \
-	%{!?with_gcj:CLASSPATH=`pwd` --with-javac=javac} \
-	%{?with_gcj:--with-javac=gcj --with-jar=fastjar}
+	%{!?with_gcj:CLASSPATH=`pwd` --with-java=java --with-javac=javac --with-jar=jar} \
+	%{?with_gcj:--with-java=gij --with-javac=gcj --with-jar=fastjar}
 
 %{__make}
 
