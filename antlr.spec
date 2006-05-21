@@ -4,7 +4,7 @@
 #  *  Package the Emacs an Jedit modes
 #
 # Conditional build:
-%bcond_with	javac	# use javac instead of gcj
+%bcond_with	javac	# use javac/java instead of gcj/gij (limits archs supported)
 #
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
@@ -74,7 +74,9 @@ cp -f /usr/share/automake/config.sub scripts
 
 %configure \
 	%{?with_javac:CLASSPATH=`pwd` --with-javac=javac} \
-	%{!?with_javac:--with-javac=gcj}
+	%{!?with_javac:--with-javac=gcj} \
+	%{!?with_javac:--with-java=gij} \
+	--disable-csharp
 
 %{__make}
 
