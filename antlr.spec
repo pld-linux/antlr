@@ -4,7 +4,7 @@
 #  *  Package the Emacs an Jedit modes
 #
 # Conditional build:
-%bcond_with	javac	# use javac/java instead of gcj/gij (limits archs supported)
+%bcond_with	gcc_java	# use gcj/gij instead of javac/java
 #
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
@@ -20,7 +20,7 @@ URL:		http://www.antlr.org/
 BuildRequires:	automake
 BuildRequires:	libstdc++-devel
 BuildRequires:	python
-%if !%{with javac}
+%if %{with gcc_java}
 BuildRequires:	gcc-java
 BuildRequires:	jar
 # gij is in gcc-java in Ac
@@ -29,6 +29,7 @@ Requires:	gcc-java
 BuildRequires:	jar
 BuildRequires:	jdk
 Requires:	jre
+ExclusiveArch:	i586 i686 pentium3 pentium4 athlon %{x8664}
 %endif
 Conflicts:	pccts < 1.33MR33-6
 BuildRequires:	sed >= 4.0
@@ -73,9 +74,9 @@ unset JAVA_HOME || :
 cp -f /usr/share/automake/config.sub scripts
 
 %configure \
-	%{?with_javac:CLASSPATH=`pwd` --with-javac=javac} \
-	%{!?with_javac:--with-javac=gcj} \
-	%{!?with_javac:--with-java=gij} \
+	%{?!with_gcc_java:CLASSPATH=`pwd` --with-javac=javac} \
+	%{?without_gcc_java:--with-javac=gcj} \
+	%{?without_gcc_java:--with-java=gij} \
 	--disable-csharp
 
 %{__make}
