@@ -1,6 +1,7 @@
 # TODO:
+#  *  update java stuff
 #  *  add python bcond
-#  *  fix csharp
+#  *  package the Emacs and Jedit modes
 #
 # Conditional build:
 %bcond_without	gcj	# use javac instead of GCJ
@@ -18,9 +19,14 @@ Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
 # Source0-md5:	17d8bf2e814f0a26631aadbbda8d7324
 Patch0:		%{name}-DESTDIR.patch
+Patch1:		%{name}-csharp.patch
 URL:		http://www.antlr.org/
+BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libstdc++-devel
+%{?with_dotnet:BuildRequires:	mono-csharp}
+BuildRequires:	python
+BuildRequires:	sed >= 4.0
 %if %{with gcj}
 BuildRequires:	gcc-java >= 5:4.0.0
 BuildRequires:	gcc-java-tools >= 5:4.0.0
@@ -30,9 +36,7 @@ BuildRequires:	jar
 BuildRequires:	jdk
 Requires:	jre
 %endif
-%{?with_dotnet:BuildRequires:	mono-csharp}
 Conflicts:	pccts < 1.33MR33-6
-BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -66,17 +70,18 @@ Group:		Libraries
 Modu³y jêzyka .NET dla biblioteki ANTLR.
 
 %package -n python-antlr
-Summary:	Python support for ANTLR
-Summary(pl):	Modu³y jêzyka Python dla biblioteki ANTLR
+Summary:	Python runtime support for ANTLR-generated parsers
+Summary(pl):	Modu³ uruchomieniowy jêzyka Python dla analizatorów ANTLR
 Group:		Libraries/Python
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 %pyrequires_eq	python-libs
 
 %description -n python-antlr
-Python support for ANTLR.
+Python runtime support for ANTLR-generated parsers.
 
 %description -n python-antlr -l pl
-Modu³y jêzyka Python dla biblioteki ANTLR.
+Modu³ uruchomieniowy jêzyka Python dla analizatorów wygenerowanych
+przez ANTLR.
 
 %package examples
 Summary:	Examples of ANTLR usage
@@ -93,10 +98,11 @@ Przyk³adowe programy u¿ywaj±ce ANTLR.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 cp -f /usr/share/automake/config.sub scripts
-
+%{__autoconf}
 %configure \
 	--enable-cxx \
 	%{?with_dotnet:--enable-csharp} \
