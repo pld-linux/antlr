@@ -73,7 +73,6 @@ Modu³y jêzyka .NET dla biblioteki ANTLR.
 Summary:	Python runtime support for ANTLR-generated parsers
 Summary(pl):	Modu³ uruchomieniowy jêzyka Python dla analizatorów ANTLR
 Group:		Libraries/Python
-Requires:	%{name} = %{epoch}:%{version}-%{release}
 %pyrequires_eq	python-libs
 
 %description -n python-antlr
