@@ -36,12 +36,13 @@ BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-ANTLR, ANother Tool for Language Recognition, (formerly PCCTS) is a language
-tool that provides a framework for constructing recognizers, compilers, and
-translators from grammatical descriptions containing Java, C#, or C++ actions.
-ANTLR is popular because it is easy to understand, powerful, flexible,
-generates human-readable output, and comes with complete source. ANTLR provides
-excellent support for tree construction, tree walking, and translation. 
+ANTLR, ANother Tool for Language Recognition, (formerly PCCTS) is a
+language tool that provides a framework for constructing recognizers,
+compilers, and translators from grammatical descriptions containing
+Java, C#, or C++ actions. ANTLR is popular because it is easy to
+understand, powerful, flexible, generates human-readable output, and
+comes with complete source. ANTLR provides excellent support for tree
+construction, tree walking, and translation.
 
 %description -l pl
 ANTLR (ANother Tool for Language Recognition; poprzednio znane jako
@@ -54,16 +55,21 @@ ANTLR ma ¶wietne wsparcie dla tworzenia drzew, przechodzenia po
 drzewach oraz translacji.
 
 %package -n python-%{name}
-Summary:	ANTLR runtime library for Python
+Summary:	Python runtime support for ANTLR-generated parsers
+Summary(pl):	Modu³ uruchomieniowy jêzyka Python dla analizatorów ANTLR
 Group:		Libraries/Python
 %pyrequires_eq	python-modules
 
 %description -n python-%{name}
-ANTLR (ANother Tool for Language Recognition) runtime library for Python.
+Python runtime support for ANTLR-generated parsers.
+
+%description -n python-%{name} -l pl
+Modu³ uruchomieniowy jêzyka Python dla analizatorów wygenerowanych
+przez ANTLR.
 
 %prep
 %setup -q
-%patch0 -p1 
+%patch0 -p1
 
 %build
 unset CLASSPATH || :
@@ -118,4 +124,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_javadir}/*.jar
 
 %files -n python-%{name}
+%defattr(644,root,root,755)
 %{py_sitescriptdir}/%{name}
