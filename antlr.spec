@@ -1,16 +1,15 @@
-%include /usr/lib/rpm/macros.java
 # TODO: 
 #  *  Add a csharp bindings subpacakge (feel free to do it)
 #  *  Package the Emacs an Jedit modes
 #
 # Conditional build:
-%bcond_with	gcc_java	# use gcj/gij instead of javac/java
+%bcond_without	gcc_java	# use javac/java instead of gcj/gij (limits to architectures with Sun JDK)
 #
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
 Version:	2.7.5
-Release:	4
+Release:	5
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
@@ -20,6 +19,7 @@ URL:		http://www.antlr.org/
 BuildRequires:	automake
 BuildRequires:	libstdc++-devel
 BuildRequires:	python
+BuildRequires:	rpmbuild(macros) >= 1.300
 %if %{with gcc_java}
 BuildRequires:	gcc-java
 BuildRequires:	jar
@@ -73,16 +73,21 @@ przez ANTLR.
 
 %build
 unset CLASSPATH || :
-unset JAVA_HOME || :
 
-%{?with_javac:export JAVA_HOME=%{java_home}}
+%if %{with gcc_java}
+unset JAVA_HOME || :
+%else
+JAVA_HOME=%{java_home}
+%endif
 
 cp -f /usr/share/automake/config.sub scripts
 
 %configure \
 	%{?!with_gcc_java:CLASSPATH=`pwd` --with-javac=javac} \
-	%{?without_gcc_java:--with-javac=gcj} \
-	%{?without_gcc_java:--with-java=gij} \
+	%{?with_gcc_java:--with-javac=gcj} \
+	%{?without_gcc_java:--with-javac=javac} \
+	%{?with_gcc_java:--with-java=gij} \
+	%{?without_gcc_java:--with-java=java} \
 	--disable-csharp
 
 %{__make}
