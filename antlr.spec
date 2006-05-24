@@ -1,39 +1,49 @@
-# TODO: Move antlr-java to separate package ?
+# TODO: 
+#  *  Add a csharp bindings subpacakge (feel free to do it)
+#  *  Package the Emacs an Jedit modes
 #
 # Conditional build:
-%bcond_with	javac	# use javac instead of gcj
+%bcond_without	gcc_java	# use javac/java instead of gcj/gij (limits to architectures with Sun JDK)
 #
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
-Version:	2.7.4
-Release:	2
+Version:	2.7.5
+Release:	5
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	33df7cdc8e80447cdd78607c76f02bac
+# Source0-md5:	1ef201f29283179c8e5ab618529cac78
+Patch0:		%{name}-DESTDIR.patch
 URL:		http://www.antlr.org/
 BuildRequires:	automake
-%if !%{with javac}
+BuildRequires:	libstdc++-devel
+BuildRequires:	python
+BuildRequires:	rpmbuild(macros) >= 1.300
+BuildRequires:	jpackage-utils
+%if %{with gcc_java}
 BuildRequires:	gcc-java
-BuildRequires:	gcc-java-tools
+BuildRequires:	jar
+# gij is in gcc-java in Ac
+Requires:	gcc-java
 %else
 BuildRequires:	jar
 BuildRequires:	jdk
 Requires:	jre
+ExclusiveArch:	i586 i686 pentium3 pentium4 athlon %{x8664}
 %endif
 Conflicts:	pccts < 1.33MR33-6
+BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_javalibdir	%{_datadir}/java
-
 %description
-ANTLR, ANother Tool for Language Recognition, (formerly PCCTS) is a language
-tool that provides a framework for constructing recognizers, compilers, and
-translators from grammatical descriptions containing Java, C#, or C++ actions.
-ANTLR is popular because it is easy to understand, powerful, flexible,
-generates human-readable output, and comes with complete source. ANTLR provides
-excellent support for tree construction, tree walking, and translation. 
+ANTLR, ANother Tool for Language Recognition, (formerly PCCTS) is a
+language tool that provides a framework for constructing recognizers,
+compilers, and translators from grammatical descriptions containing
+Java, C#, or C++ actions. ANTLR is popular because it is easy to
+understand, powerful, flexible, generates human-readable output, and
+comes with complete source. ANTLR provides excellent support for tree
+construction, tree walking, and translation.
 
 %description -l pl
 ANTLR (ANother Tool for Language Recognition; poprzednio znane jako
@@ -45,28 +55,65 @@ wyj¶cie czytelne dla cz³owieka i jest dostêpne z pe³nymi ¼ród³ami.
 ANTLR ma ¶wietne wsparcie dla tworzenia drzew, przechodzenia po
 drzewach oraz translacji.
 
+%package -n python-%{name}
+Summary:	Python runtime support for ANTLR-generated parsers
+Summary(pl):	Modu³ uruchomieniowy jêzyka Python dla analizatorów ANTLR
+Group:		Libraries/Python
+%pyrequires_eq	python-modules
+
+%description -n python-%{name}
+Python runtime support for ANTLR-generated parsers.
+
+%description -n python-%{name} -l pl
+Modu³ uruchomieniowy jêzyka Python dla analizatorów wygenerowanych
+przez ANTLR.
+
 %prep
 %setup -q
+%patch0 -p1
 
 %build
-#export CLASSPATH=$RPM_BUILD_DIR/%{name}-%{version}
+unset CLASSPATH || :
+
+%if %{with gcc_java}
+unset JAVA_HOME || :
+%else
+JAVA_HOME=%{java_home}
+%endif
 
 cp -f /usr/share/automake/config.sub scripts
 
 %configure \
-	%{?with_javac:CLASSPATH=`pwd`} \
-	%{!?with_javac:--enable-gcj}
+	%{?!with_gcc_java:CLASSPATH=`pwd` --with-javac=javac} \
+	%{?with_gcc_java:--with-javac=gcj} \
+	%{?without_gcc_java:--with-javac=javac} \
+	%{?with_gcc_java:--with-java=gij} \
+	%{?without_gcc_java:--with-java=java} \
+	--disable-csharp
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_javalibdir}
+install -d $RPM_BUILD_ROOT{%{_javadir},%{py_sitescriptdir}/%{name}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-mv $RPM_BUILD_ROOT%{_datadir}/%{name}-2.7.3/antlr.jar $RPM_BUILD_ROOT%{_javalibdir}
+mv $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar $RPM_BUILD_ROOT%{_javadir}/%{name}-%{version}.jar
+ln -s %{name}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}.jar
+
+%{__sed} -i -e "s,ANTLR_JAR=.*,ANTLR_JAR=\"%{_javadir}/antlr-%{version}.jar\",g" $RPM_BUILD_ROOT%{_bindir}/antlr
+
+mv $RPM_BUILD_ROOT{%{_datadir}/%{name}-%{version}/*.py,%{py_sitescriptdir}/%{name}}
+%py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
+rm -f $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/*.py
+
+rm -f $RPM_BUILD_ROOT%{_sbindir}/pyantlr.sh
+rm -f $RPM_BUILD_ROOT%{_libdir}/antlr*
+
+# TODO: install where Emacs and JEdit will look for that
+rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/*.{xml,el}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -76,7 +123,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/*
 %attr(755,root,root) %{_bindir}/antlr
 %attr(755,root,root) %{_bindir}/antlr-config
-%{!?with_javac:%attr(755,root,root) %{_bindir}/antlr-java}
 %{_includedir}/%{name}
 %{_libdir}/libantlr.a
-%{_javalibdir}/*.jar
+%{_datadir}/%{name}*
+# Don't separate it, antlr binary won't work without it
+%{_javadir}/*.jar
+
+%files -n python-%{name}
+%defattr(644,root,root,755)
+%{py_sitescriptdir}/%{name}
