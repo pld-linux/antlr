@@ -20,6 +20,7 @@ BuildRequires:	automake
 BuildRequires:	libstdc++-devel
 BuildRequires:	python
 BuildRequires:	rpmbuild(macros) >= 1.300
+BuildRequires:	jpackage-utils
 %if %{with gcc_java}
 BuildRequires:	gcc-java
 BuildRequires:	jar
