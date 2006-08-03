@@ -1,10 +1,9 @@
 # TODO:
-#  *  fix gcj build/runtime
 #  *  add python bcond
 #  *  package the Emacs and Jedit modes
 #
 # Conditional build:
-%bcond_with	gcj	# use GCJ instead of javac
+%bcond_without	gcj	# use javac instead of GCJ
 %bcond_without	dotnet	# don't build .NET modules
 #
 %{?with_dotnet:%include	/usr/lib/rpm/macros.mono}
@@ -13,7 +12,7 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
 Version:	2.7.6
-Release:	1
+Release:	2
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
@@ -152,6 +151,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with dotnet}
 %files -n dotnet-antlr
 %defattr(644,root,root,755)
+%dir %{_prefix}/lib/mono/%{name}
 %{_prefix}/lib/mono/%{name}/*.dll
 %endif
 
