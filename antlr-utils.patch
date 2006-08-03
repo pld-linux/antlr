@@ -1,0 +1,10 @@
+--- antlr-2.7.6/antlr/Makefile.in.orig	2006-08-03 23:12:27.000000000 +0200
++++ antlr-2.7.6/antlr/Makefile.in	2006-08-03 23:12:46.396877500 +0200
+@@ -192,6 +192,7 @@
+   @abs_top_srcdir@/antlr/TreeParserSharedInputState.java \
+   @abs_top_srcdir@/antlr/TreeSpecifierNode.java \
+   @abs_top_srcdir@/antlr/TreeWalkerGrammar.java \
++  @abs_top_srcdir@/antlr/Utils.java \
+   @abs_top_srcdir@/antlr/WildcardElement.java \
+   @abs_top_srcdir@/antlr/ZeroOrMoreBlock.java \
+   @abs_top_srcdir@/antlr/build/ANTLR.java \
