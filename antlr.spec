@@ -1,10 +1,10 @@
 # TODO:
-#  *  update java stuff
+#  *  fix gcj build/runtime
 #  *  add python bcond
 #  *  package the Emacs and Jedit modes
 #
 # Conditional build:
-%bcond_without	gcj	# use javac instead of GCJ
+%bcond_with	gcj	# use GCJ instead of javac
 %bcond_without	dotnet	# don't build .NET modules
 #
 %{?with_dotnet:%include	/usr/lib/rpm/macros.mono}
@@ -13,13 +13,14 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
 Version:	2.7.6
-Release:	0.9
+Release:	1
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
 # Source0-md5:	17d8bf2e814f0a26631aadbbda8d7324
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-csharp.patch
+Patch2:		%{name}-utils.patch
 URL:		http://www.antlr.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -98,6 +99,7 @@ Przyk³adowe programy u¿ywaj±ce ANTLR.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 cp -f /usr/share/automake/config.sub scripts
