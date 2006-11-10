@@ -11,15 +11,13 @@
 Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
-Version:	2.7.6
-Release:	2
+Version:	2.7.7
+Release:	1
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	17d8bf2e814f0a26631aadbbda8d7324
+# Source0-md5:	01cc9a2a454dd33dcd8c856ec89af090
 Patch0:		%{name}-DESTDIR.patch
-Patch1:		%{name}-csharp.patch
-Patch2:		%{name}-utils.patch
 URL:		http://www.antlr.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -97,8 +95,6 @@ Przyk³adowe programy u¿ywaj±ce ANTLR.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %build
 cp -f /usr/share/automake/config.sub scripts
