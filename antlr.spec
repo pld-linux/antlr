@@ -106,6 +106,7 @@ cp -f /usr/share/automake/config.sub scripts
 	%{!?with_gcj:CLASSPATH=`pwd` --with-java=java --with-javac=javac --with-jar=jar} \
 	%{?with_gcj:--with-java=gij --with-javac=gcj --with-jar=fastjar}
 
+CXXFLAGS="%{rpmcxxflags}" \
 %{__make}
 
 %install
