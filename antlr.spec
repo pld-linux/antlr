@@ -12,7 +12,7 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
 Name:		antlr
 Version:	2.7.7
-Release:	1
+Release:	2
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
@@ -104,7 +104,7 @@ cp -f /usr/share/automake/config.sub scripts
 	%{?with_dotnet:--enable-csharp} \
 	%{!?with_dotnet:--disable-csharp} \
 	%{!?with_gcj:CLASSPATH=`pwd` --with-java=java --with-javac=javac --with-jar=jar} \
-	%{?with_gcj:--with-java=gij --with-javac=gcj --with-jar=fastjar}
+	%{?with_gcj:--with-java=gij --with-javac=gcj --with-jar=jar}
 
 CXXFLAGS="%{rpmcxxflags}" \
 %{__make}
