@@ -9,7 +9,7 @@
 %{?with_dotnet:%include	/usr/lib/rpm/macros.mono}
 #
 Summary:	ANother Tool for Language Recognition
-Summary(pl.UTF-8):   Jeszcze jedno narzędzie do rozpoznawania języka
+Summary(pl.UTF-8):	Jeszcze jedno narzędzie do rozpoznawania języka
 Name:		antlr
 Version:	2.7.7
 Release:	2
@@ -58,7 +58,7 @@ drzewach oraz translacji.
 
 %package -n dotnet-antlr
 Summary:	.NET support for ANTLR
-Summary(pl.UTF-8):   Moduły języka .NET dla biblioteki ANTLR
+Summary(pl.UTF-8):	Moduły języka .NET dla biblioteki ANTLR
 Group:		Libraries
 
 %description -n dotnet-antlr
@@ -69,7 +69,7 @@ Moduły języka .NET dla biblioteki ANTLR.
 
 %package -n python-antlr
 Summary:	Python runtime support for ANTLR-generated parsers
-Summary(pl.UTF-8):   Moduł uruchomieniowy języka Python dla analizatorów ANTLR
+Summary(pl.UTF-8):	Moduł uruchomieniowy języka Python dla analizatorów ANTLR
 Group:		Libraries/Python
 %pyrequires_eq	python-libs
 
@@ -82,7 +82,7 @@ przez ANTLR.
 
 %package examples
 Summary:	Examples of ANTLR usage
-Summary(pl.UTF-8):   Przykładowe programy używające ANTLR
+Summary(pl.UTF-8):	Przykładowe programy używające ANTLR
 Group:		Development
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
