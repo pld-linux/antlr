@@ -9,7 +9,7 @@
 %{?with_dotnet:%include	/usr/lib/rpm/macros.mono}
 #
 Summary:	ANother Tool for Language Recognition
-Summary(pl):	Jeszcze jedno narzêdzie do rozpoznawania jêzyka
+Summary(pl.UTF-8):   Jeszcze jedno narzÄ™dzie do rozpoznawania jÄ™zyka
 Name:		antlr
 Version:	2.7.7
 Release:	2
@@ -46,51 +46,51 @@ understand, powerful, flexible, generates human-readable output, and
 comes with complete source. ANTLR provides excellent support for tree
 construction, tree walking, and translation.
 
-%description -l pl
+%description -l pl.UTF-8
 ANTLR (ANother Tool for Language Recognition; poprzednio znane jako
-PCCTS) to narzêdzie jêzykowe dostarczaj±ce szkielet do tworzenia
-programów rozpoznaj±cych jêzyki, kompilatorów, translatorów z opisów
-gramatycznych obejmuj±cych Javê, C# lub C++. ANTLR jest popularne
-poniewa¿ jest ³atwe do zrozumienia, potê¿ne, elastyczne, generuje
-wyj¶cie czytelne dla cz³owieka i jest dostêpne z pe³nymi ¼ród³ami.
-ANTLR ma ¶wietne wsparcie dla tworzenia drzew, przechodzenia po
+PCCTS) to narzÄ™dzie jÄ™zykowe dostarczajÄ…ce szkielet do tworzenia
+programÃ³w rozpoznajÄ…cych jÄ™zyki, kompilatorÃ³w, translatorÃ³w z opisÃ³w
+gramatycznych obejmujÄ…cych JavÄ™, C# lub C++. ANTLR jest popularne
+poniewaÅ¼ jest Å‚atwe do zrozumienia, potÄ™Å¼ne, elastyczne, generuje
+wyjÅ›cie czytelne dla czÅ‚owieka i jest dostÄ™pne z peÅ‚nymi ÅºrÃ³dÅ‚ami.
+ANTLR ma Å›wietne wsparcie dla tworzenia drzew, przechodzenia po
 drzewach oraz translacji.
 
 %package -n dotnet-antlr
 Summary:	.NET support for ANTLR
-Summary(pl):	Modu³y jêzyka .NET dla biblioteki ANTLR
+Summary(pl.UTF-8):   ModuÅ‚y jÄ™zyka .NET dla biblioteki ANTLR
 Group:		Libraries
 
 %description -n dotnet-antlr
 .NET support for ANTLR.
 
-%description -n dotnet-antlr -l pl
-Modu³y jêzyka .NET dla biblioteki ANTLR.
+%description -n dotnet-antlr -l pl.UTF-8
+ModuÅ‚y jÄ™zyka .NET dla biblioteki ANTLR.
 
 %package -n python-antlr
 Summary:	Python runtime support for ANTLR-generated parsers
-Summary(pl):	Modu³ uruchomieniowy jêzyka Python dla analizatorów ANTLR
+Summary(pl.UTF-8):   ModuÅ‚ uruchomieniowy jÄ™zyka Python dla analizatorÃ³w ANTLR
 Group:		Libraries/Python
 %pyrequires_eq	python-libs
 
 %description -n python-antlr
 Python runtime support for ANTLR-generated parsers.
 
-%description -n python-antlr -l pl
-Modu³ uruchomieniowy jêzyka Python dla analizatorów wygenerowanych
+%description -n python-antlr -l pl.UTF-8
+ModuÅ‚ uruchomieniowy jÄ™zyka Python dla analizatorÃ³w wygenerowanych
 przez ANTLR.
 
 %package examples
 Summary:	Examples of ANTLR usage
-Summary(pl):	Przyk³adowe programy u¿ywaj±ce ANTLR
+Summary(pl.UTF-8):   PrzykÅ‚adowe programy uÅ¼ywajÄ…ce ANTLR
 Group:		Development
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description examples
 Examples of ANTLR usage.
 
-%description examples -l pl
-Przyk³adowe programy u¿ywaj±ce ANTLR.
+%description examples -l pl.UTF-8
+PrzykÅ‚adowe programy uÅ¼ywajÄ…ce ANTLR.
 
 %prep
 %setup -q
