@@ -5,6 +5,7 @@
 # Conditional build:
 %bcond_without	gcj	# use javac instead of GCJ
 %bcond_without	dotnet	# don't build .NET modules
+%bcond_without	java	# don't build Java at all
 #
 %{?with_dotnet:%include	/usr/lib/rpm/macros.mono}
 #
@@ -25,6 +26,7 @@ BuildRequires:	libstdc++-devel
 %{?with_dotnet:BuildRequires:	mono-csharp}
 BuildRequires:	python
 BuildRequires:	sed >= 4.0
+%if %{with java}
 %if %{with gcj}
 BuildRequires:	gcc-java >= 5:4.0.0
 BuildRequires:	gcc-java-tools >= 5:4.0.0
@@ -33,6 +35,7 @@ Requires:	/usr/bin/gij
 BuildRequires:	jar
 BuildRequires:	jdk
 Requires:	jre
+%endif
 %endif
 Conflicts:	pccts < 1.33MR33-6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -104,6 +107,7 @@ cp -f /usr/share/automake/config.sub scripts
 	%{?with_dotnet:--enable-csharp} \
 	%{!?with_dotnet:--disable-csharp} \
 	%{!?with_gcj:CLASSPATH=`pwd` --with-java=java --with-javac=javac --with-jar=jar} \
+	%{!?with_java:--disable-java} \
 	%{?with_gcj:--with-java=gij --with-javac=gcj --with-jar=jar}
 
 CXXFLAGS="%{rpmcxxflags}" \
@@ -116,8 +120,10 @@ install -d $RPM_BUILD_ROOT{%{_javadir},%{py_sitescriptdir}/%{name},%{_prefix}/li
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%if %{with java}
 install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar \
 	$RPM_BUILD_ROOT%{_javadir}
+%endif
 install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/*.py \
 	$RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
 cp -Rf examples/{cpp,csharp,java,python} \
@@ -143,7 +149,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/%{name}
 %{_libdir}/libantlr.a
 # Dont separate it, antlr binary wont work without it
+%if %{with java}
 %{_javadir}/*.jar
+%endif
 
 %if %{with dotnet}
 %files -n dotnet-antlr
