@@ -13,7 +13,7 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl.UTF-8):	Jeszcze jedno narzędzie do rozpoznawania języka
 Name:		antlr
 Version:	2.7.7
-Release:	2
+Release:	3
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
@@ -29,7 +29,7 @@ BuildRequires:	sed >= 4.0
 %if %{with java}
 %if %{with gcj}
 BuildRequires:	gcc-java >= 5:4.0.0
-BuildRequires:	gcc-java-tools >= 5:4.0.0
+BuildRequires:	jar
 Requires:	/usr/bin/gij
 %else
 BuildRequires:	jar
