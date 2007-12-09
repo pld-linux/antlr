@@ -1,6 +1,6 @@
 # TODO:
-#  *  add python bcond
-#  *  package the Emacs and Jedit modes
+#  - add python bcond
+#  - package the Emacs and Jedit modes
 #
 # Conditional build:
 %bcond_without	gcj	# use javac instead of GCJ
@@ -34,7 +34,7 @@ Requires:	/usr/bin/gij
 %else
 BuildRequires:	jar
 BuildRequires:	jdk
-Requires:	jre
+Requires:	jpackage-utils
 %endif
 %endif
 Conflicts:	pccts < 1.33MR33-6
