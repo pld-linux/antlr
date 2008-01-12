@@ -103,9 +103,9 @@ Przykładowe programy używające ANTLR.
 cp -f /usr/share/automake/config.sub scripts
 %{__autoconf}
 %configure \
-	--enable-cxx \
-	%{?with_dotnet:--enable-csharp} \
+	%{?with_dotnet:CSHARPC=/usr/bin/mcs --enable-csharp} \
 	%{!?with_dotnet:--disable-csharp} \
+	--enable-cxx \
 	%{!?with_gcj:CLASSPATH=`pwd` --with-java=java --with-javac=javac --with-jar=jar} \
 	%{!?with_java:--disable-java} \
 	%{?with_gcj:--with-java=gij --with-javac=gcj --with-jar=jar}
