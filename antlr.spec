@@ -19,6 +19,7 @@ Group:		Development/Tools
 Source0:	http://www.antlr.org/download/%{name}-%{version}.tar.gz
 # Source0-md5:	01cc9a2a454dd33dcd8c856ec89af090
 Patch0:		%{name}-DESTDIR.patch
+Patch1:		%{name}-strcasecmp.patch
 URL:		http://www.antlr.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -28,9 +29,7 @@ BuildRequires:	python
 BuildRequires:	sed >= 4.0
 %if %{with java}
 %if %{with gcj}
-BuildRequires:	gcc-java >= 5:4.0.0
-BuildRequires:	jar
-Requires:	/usr/bin/gij
+BuildRequires:	java-gcj-compat-devel
 %else
 BuildRequires:	jar
 BuildRequires:	jdk
@@ -98,6 +97,7 @@ Przykładowe programy używające ANTLR.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 cp -f /usr/share/automake/config.sub scripts
@@ -106,9 +106,8 @@ cp -f /usr/share/automake/config.sub scripts
 	%{?with_dotnet:CSHARPC=/usr/bin/mcs --enable-csharp} \
 	%{!?with_dotnet:--disable-csharp} \
 	--enable-cxx \
-	%{!?with_gcj:CLASSPATH=`pwd` --with-java=java --with-javac=javac --with-jar=jar} \
+	%{?with_java:CLASSPATH=`pwd` --with-java=java --with-javac=javac --with-jar=jar} \
 	%{!?with_java:--disable-java} \
-	%{?with_gcj:--with-java=gij --with-javac=gcj --with-jar=jar}
 
 CXXFLAGS="%{rpmcxxflags}" \
 %{__make}
