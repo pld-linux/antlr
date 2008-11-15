@@ -9,7 +9,7 @@
 #
 %{?with_dotnet:%include	/usr/lib/rpm/macros.mono}
 #
-%ifarch i586 i586 athlon %{x8664}
+%ifarch i586 i586 i686 athlon %{x8664}
 %undefine	with_gcj
 %endif
 #
@@ -17,7 +17,7 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl.UTF-8):	Jeszcze jedno narzędzie do rozpoznawania języka
 Name:		antlr
 Version:	2.7.7
-Release:	5
+Release:	6
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr2.org/download/%{name}-%{version}.tar.gz
