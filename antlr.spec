@@ -2,6 +2,10 @@
 #  - add python bcond
 #  - package the Emacs and Jedit modes
 #
+# NOTE:
+#  - next version is packaged as antlr3.spec. Please, do not upgrade this spec
+#    to 3.
+#
 # Conditional build:
 %bcond_without	gcj	# use javac instead of GCJ
 %bcond_without	dotnet	# don't build .NET modules
