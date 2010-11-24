@@ -21,13 +21,14 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl.UTF-8):	Jeszcze jedno narzędzie do rozpoznawania języka
 Name:		antlr
 Version:	2.7.7
-Release:	7
+Release:	8
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr2.org/download/%{name}-%{version}.tar.gz
 # Source0-md5:	01cc9a2a454dd33dcd8c856ec89af090
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-strcasecmp.patch
+Patch2:		%{name}-gentoo.patch
 URL:		http://www.antlr2.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -106,6 +107,7 @@ Przykładowe programy używające ANTLR.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 cp -f /usr/share/automake/config.sub scripts
