@@ -13,7 +13,7 @@
 #
 %{?with_dotnet:%include	/usr/lib/rpm/macros.mono}
 #
-%ifarch i586 i686 athlon %{x8664}
+%ifarch i486 i586 i686 athlon %{x8664}
 %undefine	with_gcj
 %endif
 #
