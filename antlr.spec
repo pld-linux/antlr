@@ -21,7 +21,7 @@ Summary:	ANother Tool for Language Recognition
 Summary(pl.UTF-8):	Jeszcze jedno narzędzie do rozpoznawania języka
 Name:		antlr
 Version:	2.7.7
-Release:	12
+Release:	13
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr2.org/download/%{name}-%{version}.tar.gz
@@ -147,6 +147,8 @@ find $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version} -name Makefile -exec rm -
 rm $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/*.py
 
 %{__sed} -i -e "s,ANTLR_JAR=.*,ANTLR_JAR=\"%{_javadir}/antlr.jar\",g" $RPM_BUILD_ROOT%{_bindir}/antlr
+
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
