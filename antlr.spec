@@ -7,21 +7,21 @@
 #    to 3.
 #
 # Conditional build:
-%bcond_without	gcj	# use javac instead of GCJ
+%bcond_with	gcj	# use GCJ instead of javac
 %bcond_without	dotnet	# don't build .NET modules
 %bcond_without	java	# don't build Java at all
 #
 %{?with_dotnet:%include	/usr/lib/rpm/macros.mono}
 #
-%ifarch i486 i586 i686 athlon %{x8664}
-%undefine	with_gcj
+%ifarch x32
+%undefine	with_dotnet
 %endif
 #
 Summary:	ANother Tool for Language Recognition
 Summary(pl.UTF-8):	Jeszcze jedno narzędzie do rozpoznawania języka
 Name:		antlr
 Version:	2.7.7
-Release:	13
+Release:	14
 License:	Public Domain
 Group:		Development/Tools
 Source0:	http://www.antlr2.org/download/%{name}-%{version}.tar.gz
