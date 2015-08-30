@@ -1,6 +1,8 @@
 # TODO:
 #  - add python bcond
 #  - package the Emacs and Jedit modes
+#    %{_datadir}/%{name}-%{version}/antlr-jedit.xml
+#    %{_datadir}/%{name}-%{version}/antlr-mode.el
 #
 # NOTE:
 #  - next version is packaged as antlr3.spec. Please, do not upgrade this spec
@@ -130,23 +132,29 @@ install -d $RPM_BUILD_ROOT{%{_javadir},%{py_sitescriptdir}/%{name},%{_prefix}/li
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%if %{with java}
-install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar \
-	$RPM_BUILD_ROOT%{_javadir}
-%endif
-install $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/*.py \
+%{__mv} $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/*.py \
 	$RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/antlr.py
+%py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
+%py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
+# module installer
+%{__rm} $RPM_BUILD_ROOT%{_sbindir}/pyantlr.sh
+
+%if %{with java}
+%{__mv} $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/antlr.jar \
+	$RPM_BUILD_ROOT%{_javadir}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/antlr.jar
+%endif
+%{__sed} -i -e "s,ANTLR_JAR=.*,ANTLR_JAR=\"%{_javadir}/antlr.jar\",g" $RPM_BUILD_ROOT%{_bindir}/antlr
+
+%if %{with dotnet}
+%{__mv} $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/*.dll $RPM_BUILD_ROOT%{_prefix}/lib/mono/%{name}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/antlr.*.dll
+%endif
+
 cp -Rf examples/{cpp,csharp,java,python} \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 find $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version} -name Makefile -exec rm -f {} \;
-
-%{?with_dotnet:install lib/*.dll $RPM_BUILD_ROOT%{_prefix}/lib/mono/%{name}}
-
-%py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
-%py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}
-rm $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/*.py
-
-%{__sed} -i -e "s,ANTLR_JAR=.*,ANTLR_JAR=\"%{_javadir}/antlr.jar\",g" $RPM_BUILD_ROOT%{_bindir}/antlr
 
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 
@@ -155,21 +163,22 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc doc/*
+%doc doc/*.{html,gif,jpg}
 %attr(755,root,root) %{_bindir}/antlr
 %attr(755,root,root) %{_bindir}/antlr-config
 %{_includedir}/%{name}
 %{_libdir}/libantlr.a
-# Dont separate it, antlr binary wont work without it
+# Don't separate it, antlr binary won't work without it
 %if %{with java}
-%{_javadir}/*.jar
+%{_javadir}/antlr.jar
 %endif
 
 %if %{with dotnet}
 %files -n dotnet-antlr
 %defattr(644,root,root,755)
 %dir %{_prefix}/lib/mono/%{name}
-%{_prefix}/lib/mono/%{name}/*.dll
+%{_prefix}/lib/mono/%{name}/antlr.astframe.dll
+%{_prefix}/lib/mono/%{name}/antlr.runtime.dll
 %endif
 
 %files -n python-antlr
