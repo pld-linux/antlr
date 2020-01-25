@@ -13,7 +13,6 @@
 %bcond_without	dotnet	# don't build .NET modules
 %bcond_without	java	# don't build Java at all
 #
-%{?with_dotnet:%include	/usr/lib/rpm/macros.mono}
 #
 %ifarch x32
 %undefine	with_dotnet
